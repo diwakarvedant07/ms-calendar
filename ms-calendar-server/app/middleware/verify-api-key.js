@@ -3,7 +3,8 @@ const CalendarModel = require("../models/ms-calendar-model");
 const verifyApiKey = async (req, res, next) => {
     //console.log("---------------------------------------");
     //console.log("  |  Verifying API key |");
-    if (req.headers["x-auth-token"] === process.env.API_KEY) {
+    //to change api key
+    if (req.headers["x-auth-token"] === "8779bad8-4022-11ee-be56-0242ac120002") {
         //console.log("  |  API key verified  |");
         try {
             const data = await CalendarModel.findOne({orgId : Number(req.headers["orgid"]) , collegeId : Number(req.headers["collegeid"]) , userId : Number(req.headers["userid"])});

@@ -11,7 +11,7 @@ router.get('/',verifyApiKey, function(req, res){
                 collegeId : req.headers["collegeid"],
                 userId : req.headers["userid"]
             },
-             process.env.TOKEN_KEY, 
+             "vedant", 
             {
             expiresIn: 3600,
             }
