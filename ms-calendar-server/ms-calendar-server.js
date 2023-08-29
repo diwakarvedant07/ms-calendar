@@ -17,7 +17,5 @@ const userRouter = require("./app/routes/ms-calendar-routes.js");
 app.use("/ms-calendar", userRouter);
 const generateTokenRouter = require("./app/routes/generate-token.js");
 app.use("/generate-token", generateTokenRouter);
-const academicRouter = require("./app/routes/academic-event-route.js");
-app.use("/academic", academicRouter);
 
 app.listen(3000, () => console.log("ms-calendar-server : started"));

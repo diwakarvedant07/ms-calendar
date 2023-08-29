@@ -6,7 +6,7 @@ const verifyJWT = require("../middleware/verify-jwt-token.js");
 //getting all
 router.get("/", verifyJWT, async (req, res) => {
   //console.log("Fetching Data : ");
-  const eventData = await CalendarModel.find({orgId : req.user.orgId, collegeId : req.user.collegeId, userId : req.user.userId});
+  const eventData = await CalendarModel.find({orgId : 456, collegeId : 123, userId : 12345});
   res.status(200).send(eventData);
 });
 //getting one
@@ -18,9 +18,9 @@ router.get("/:id", verifyJWT, targetData, (req, res) => {
 router.post("/", verifyJWT , async (req, res) => {
   try {
     //console.log("this is req.body");
-    req.body.orgId = req.user.orgId;
-    req.body.collegeId = req.user.collegeId;
-    req.body.userId = req.user.userId;
+    req.body.orgId = 456;
+    req.body.collegeId = 123;
+    req.body.userId = 12345;
     //console.log(req.body);
     const calendarModel = new CalendarModel(req.body);
     await calendarModel.save();
@@ -59,7 +59,7 @@ router.patch("/:id", verifyJWT , targetData , async (req, res) => {
 router.delete("/:id",verifyJWT, targetData , async (req, res) => {
     try { 
       
-        await CalendarModel.deleteOne({orgId : req.user.orgId, collegeId : req.user.collegeId, userId : req.user.userId, _id : req.params.id})
+        await CalendarModel.deleteOne({orgId : 456, collegeId : 123, userId : 12345, _id : req.params.id})
         //await res.targetData.remove();
         res.status(200).json({ respone : "deleted"})
     }catch (err) {
@@ -70,7 +70,7 @@ router.delete("/:id",verifyJWT, targetData , async (req, res) => {
 async function targetData(req, res, next) {
     let moreData;
     try {
-        moreData = await CalendarModel.findOne({orgId : req.user.orgId, collegeId : req.user.collegeId, userId : req.user.userId, _id : req.params.id});
+        moreData = await CalendarModel.findOne({orgId : 456, collegeId : 123, userId : 12345, _id : req.params.id});
         if (moreData == null) {
             return res.status(404).json({ error: "No such data found" });
         }
