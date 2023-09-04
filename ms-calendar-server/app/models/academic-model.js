@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const todoSchema = new mongoose.Schema({
+const academicSchema = new mongoose.Schema({
   orgId: {
     type: Number,
   },
@@ -22,7 +22,7 @@ const todoSchema = new mongoose.Schema({
   edate: Number,
   eventColor: {
     type: String,
-    default: "purple"
+    default: "grey"
   },
   hasSeen: {
     type: Boolean,
@@ -30,8 +30,10 @@ const todoSchema = new mongoose.Schema({
   },
   tags: {
     type: [String],
+    default: ["academic"]
   }
 });
 
+//const academicModel = mongoose.model('Academic', academicSchema);
 
-module.exports = mongoose.model("Todo", todoSchema);
+module.exports = mongoose.model("Academic", academicSchema);
