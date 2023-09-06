@@ -25,7 +25,6 @@ router.get("/:id", verifyJWT, targetData, (req, res) => {
 // creating one
 router.post("/", verifyJWT , async (req, res) => {
   try {
-    //console.log("using post method");
     req.body.orgId = req.user.orgId;
     req.body.collegeId = req.user.collegeId;
     req.body.userId = req.user.userId;

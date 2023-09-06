@@ -1,4 +1,4 @@
-const CalendarModel = require("../models/ms-calendar-model");
+const UserModel = require("../models/user-login-model");
 
 const verifyApiKey = async (req, res, next) => {
     //console.log("---------------------------------------");
@@ -6,7 +6,7 @@ const verifyApiKey = async (req, res, next) => {
     if (req.headers["x-auth-token"] === process.env.API_KEY) {
         //console.log("  |  API key verified  |");
         try {
-            const data = await CalendarModel.findOne({orgId : Number(req.headers["orgid"]) , collegeId : Number(req.headers["collegeid"]) , userId : Number(req.headers["userid"])});
+            const data = await UserModel.findOne({orgId : Number(req.headers["orgid"]) , collegeId : Number(req.headers["collegeid"]) , userId : Number(req.headers["userid"])});
         //console.log(req.headers)
         if(data == null) {
             res.status(401).send("No access to user");

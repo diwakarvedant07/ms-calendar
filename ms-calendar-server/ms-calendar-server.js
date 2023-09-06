@@ -21,5 +21,7 @@ const academicRouter = require("./app/routes/academic-event-route.js");
 app.use("/academic-events", academicRouter);
 const tagsRouter = require("./app/routes/tags-route.js");
 app.use("/tags", tagsRouter);
+const loginRouter = require("./app/routes/user-login-route.js");
+app.use("/login", loginRouter);
 
 app.listen(3000, () => console.log("ms-calendar-server : started"));
