@@ -1,0 +1,15 @@
+.filterTable {
+  .form-inline {
+    float: right;
+  }
+
+  .footable-filtering-search .input-group-btn {
+    .btn {
+      padding: 9px 12px;
+    }
+
+    .dropdown-toggle::after {
+      display: none;
+    }
+  }
+}

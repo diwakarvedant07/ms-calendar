@@ -1,0 +1,150 @@
+/**
+ *  Document   : style.css
+ *  Author     : RedStar Template
+ *  Description: This is a main style scss file for import all scss files.
+ *
+ * 
+ */
+
+/**
+ * TABLE OF CONTENTS
+ *
+ * 1. Variable
+ * 2. Mixin
+ * 3. Helper Classes
+ * 3. Bootstrap Override
+ * 	  3.1 Misc
+ * 	  3.2 Form
+ * 	  3.3 List
+ * 	  3.4 Alert
+ * 	  3.5 Card
+ * 	  3.6 Table
+ * 	  3.7 Tooltip
+ * 	  3.8 Modal
+ * 	  3.9 Nav
+ * 	  3.10 Pagination
+ * 	  3.11 Badge
+ * 	  3.12 Button
+ * 	  3.13 Media
+ * 	  3.14 Breadcrumb
+ * 	  3.15 Accordion
+ * 	  3.16 Popover
+ * 	  3.17 Grid
+ * 	  3.18 Navbar
+ * 	  3.19 Dropdown
+ * 	  3.20 Tab
+ * 	  3.21 Progressbar
+ * 	  3.22 Jumbotron
+ * 	  3.23 Carousel
+ * 	  3.24 Icons
+ * 4. Layout Style
+ * 	  4.1 Misc
+ * 	  4.2 Section
+ * 	  4.3 Page
+ * 	  4.4 Layout
+ * 	  4.5 Animation
+ * 5. Theme Style
+ * 	  5.1 Dark Sidebar 
+ * 	  5.2 Light Sidebar 
+ *    5.3 Purple Theme 
+ *    5.4 Cyan Theme 
+ *    5.5 Green Theme
+ *    5.6 Red Theme 
+ *    5.7 Orange Theme 
+ *    5.8 White Theme 
+ *    5.9 Black Theme 
+ *    5.10 Dark Template 
+ */
+
+/* 1. Variable */
+@import "_variable";
+
+/* 2. Mixin */
+@import "_mixin";
+
+/* 3. Helper classes */
+@import "_helpers";
+
+/* 3. Bootstrap Override */
+/* 3.1 Misc */
+@import "override/_misc";
+/* 3.2 Form */
+@import "override/_form";
+/* 3.3 List */
+@import "override/_list";
+/* 3.4 Alert */
+@import "override/_alert";
+/* 3.5 Card */
+@import "override/_card";
+/* 3.6 Table */
+@import "override/_table";
+/* 3.7 Tooltip */
+@import "override/_tooltip";
+/* 3.8 Modal */
+@import "override/_modal";
+/* 3.9 Nav */
+@import "override/_nav";
+/* 3.10 Pagination */
+@import "override/_pagination";
+/* 3.11 Badge */
+@import "override/_badge";
+/* 3.12 Button */
+@import "override/_button";
+/* 3.13 Media */
+@import "override/_media";
+/* 3.14 Breadcrumb */
+@import "override/_breadcrumb";
+/* 3.15 Accordion */
+@import "override/_accordion";
+/* 3.16 Popover */
+@import "override/_popover";
+/* 3.17 Grid */
+@import "override/_grid";
+/* 3.18 Navbar */
+@import "override/_navbar";
+/* 3.19 Dropdown */
+@import "override/_dropdown";
+/* 3.20 Dropdown */
+@import "override/_tab";
+/* 3.21 Progress Bar */
+@import "override/_progressbar";
+/* 3.22 Jumbotron */
+@import "override/_jumbotron";
+/* 3.23 Carousel */
+@import "override/_carousel";
+/* 3.24 Icons */
+@import "override/_icons";
+
+/* 4. layouts Style */
+/* 4.1 Misc */
+@import "layouts/misc";
+/* 4.2 Section */
+@import "layouts/section";
+/* 4.3 Page */
+@import "layouts/page";
+/* 4.4 Layout */
+@import "layouts/layout";
+/* 4.5 Animation */
+@import "layouts/animation";
+
+/* 5. Theme Style */
+/* 5.1 Dark Sidebar */
+@import "skins/_darksidebar";
+/* 5.2 Light Sidebar */
+@import "skins/_lightsidebar";
+/* 5.3 Purple Theme */
+@import "skins/purple";
+/* 5.4 Cyan Theme */
+@import "skins/cyan";
+/* 5.5 Green Theme */
+@import "skins/green";
+/* 5.6 Red Theme */
+@import "skins/red";
+/* 5.7 Orange Theme */
+@import "skins/orange";
+/* 5.8 White Theme */
+@import "skins/white";
+/* 5.9 Black Theme */
+@import "skins/black";
+/* 5.10 Dark Template */
+@import "skins/dark";

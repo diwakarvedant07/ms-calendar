@@ -1,0 +1,80 @@
+/*
+ *  Document   : _calendar.scss
+ *  Author     : RedStar Theme
+ *  Description: This scss file for style related to calendar app
+ */
+
+#event_title {
+  font-size: 1.2rem;
+}
+
+#calendar {
+  float: right;
+  width: 100%;
+}
+
+.fc-event {
+  border: 0px !important;
+  color: #fff !important;
+  background-color: #ff5722;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+    0 7px 10px -5px rgba(76, 175, 80, 0.4);
+}
+
+.fc-state-active {
+  background: #a389d4 !important;
+  color: #fff;
+}
+
+.fc-unthemed td.fc-today {
+  background: #edeef3;
+}
+
+.fc-day-grid-event {
+  color: white !important;
+  text-align: center;
+}
+
+.label-event-meeting {
+  background: linear-gradient(45deg, #9ce89d, #cdfa7e) !important;
+}
+
+.label-event-holiday {
+  background: linear-gradient(45deg, #a890d3, #edbae7) !important;
+}
+
+.label-event-birthday {
+  background: linear-gradient(45deg, #fda582, #f7cf68) !important;
+}
+
+.label-event-competition {
+  background: linear-gradient(45deg, #72c2ff, #86f0ff) !important;
+}
+
+.label-event-dinner {
+  background: linear-gradient(45deg, #9ce89d, #cdfa7e) !important;
+}
+
+.label-event-party {
+  background: linear-gradient(45deg, #a890d3, #edbae7) !important;
+}
+
+.label-event-Untitled {
+  background: linear-gradient(45deg, #fda582, #f7cf68) !important;
+}
+
+.fc-content-skeleton thead {
+  border-bottom: none;
+}
+
+.fc-state-default {
+  border: 1px solid #eee;
+  background: transparent !important;
+  color: #7e869d;
+  border-radius: 0;
+}
+
+.fc-state-active {
+  background: #a389d4 !important;
+  color: #fff;
+}

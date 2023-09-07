@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>MasterSoft ERP Solution</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="assets/css/app.min.css">
+  <link rel="stylesheet" href="assets/bundles/izitoast/css/iziToast.min.css">
+  <link rel="stylesheet" href="assets/bundles/fullcalendar/fullcalendar.min.css">
+  <!-- <link rel="stylesheet" href="assets/bundles/daterangepicker/daterangepicker.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/main.min.css" integrity="sha512-1P/SRFqI1do4eNtBsGIAqIZIlnmOQkaY7ESI2vkl+q+hl9HSXmdPqotN0McmeZVyR4AWV+NvkP6pKOiVdY/V5A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="assets/css/custom.css">
+  <link rel='shortcut icon' type='image/x-icon' href='assets/img/favicon.ico' />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+
+  <style>
+    /* #outputResult {
+max-width: 1025px;
+word-wrap: break-word;
+} */
+
+    #processingIcon {
+        display: none;
+    }
+
+    .loading {
+        display: inline-block;
+        margin-left: 10px;
+        animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    .card .card-header {
+    border-bottom-color: #f1f1f1;}
+
+    ul{
+      list-style-type: none;
+    padding-left: 20px;
+    }
+
+    /* .js-cal-row, .js-weekdays .text-center:first-child {
+      display:none!important;
+    } */
+</style>
+</head>
+<!-- this file communicates with backend server on the localhost. it is supposed to run with  -->
+<!-- C:\Users\Vedu-PC\my-projects\MasterSoft Tasks\ms-calendar\ms-calendar-server -->
+<!-- it uses both api key and token verification. -->
+<body class="sidebar-mini">
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar sticky">
+        <div class="form-inline me-auto">
+          <ul class="navbar-nav mr-3">
+            
+            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i data-feather="maximize"></i>
+              </a></li>
+            <li>
+              <form class="form-inline me-auto">
+                <div class="search-element d-flex">
+                  <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="200">
+                  <button class="btn" type="submit">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </input>
+                </div>
+              </form>
+            </li>
+            <li>
+              <button id="authorize_button" >Authorize</button>
+              <button id="signout_button" >Sign Out</button>
+            </li>
+          </ul>
+        </div>
+        <ul class="navbar-nav navbar-right">
+          <!-- notification dropdown -->
+          <li class="dropdown dropdown-list-toggle">
+            <a href="#" data-bs-toggle="dropdown"
+              class="nav-link notification-toggle nav-link-lg"><i data-feather="bell" class="bell"></i>
+            </a>
+            <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+              <div class="dropdown-header">
+                Notifications
+                <div class="float-right">
+                  <a href="#">Mark All As Read</a>
+                </div>
+              </div>
+              <div class="dropdown-list-content dropdown-list-icons" id="NotifyBox">
+                <a href="#" class="dropdown-item dropdown-item-unread"> 
+                <span class="dropdown-item-icon bg-primary text-white"> <i class="fas fa-code"></i></span> 
+                <span class="dropdown-item-desc"> Template update is available now! 
+                <span class="time">2 Min Ago</span>
+                </span>
+                </a>
+                 <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-info text-white"> <i class="far
+												fa-user"></i>
+                  </span> <span class="dropdown-item-desc"> <b>You</b> and <b>Dedik
+                      Sugiharto</b> are now friends <span class="time">10 Hours
+                      Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-success text-white"> <i
+                      class="fas
+												fa-check"></i>
+                  </span> <span class="dropdown-item-desc"> <b>Kusnaedi</b> has
+                    moved task <b>Fix bug header</b> to <b>Done</b> <span class="time">12
+                      Hours
+                      Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-danger text-white"> <i
+                      class="fas fa-exclamation-triangle"></i>
+                  </span> <span class="dropdown-item-desc"> Low disk space. Let's
+                    clean it! <span class="time">17 Hours Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-info text-white"> <i class="fas
+												fa-bell"></i>
+                  </span> <span class="dropdown-item-desc"> Welcome to Otika
+                    template! <span class="time">Yesterday</span>
+                  </span>
+                </a>
+              </div>
+              <div class="dropdown-footer text-center">
+                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+              </div>
+            </div>
+          </li>
+          <!-- notification ends -->
+          <li class="dropdown"><a href="#" data-bs-toggle="dropdown"
+              class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="assets/img/user.png"
+                class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
+            <div class="dropdown-menu dropdown-menu-right pullDown">
+              <div class="dropdown-title">Hello Admin</div>
+              <a href="#" class="dropdown-item has-icon"> <i class="far
+										fa-user"></i> Profile
+              </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
+                Activities
+              </a> 
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12 col-lg-2">
+                <div class="form-group text-center">
+                  <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#ClassListModal">Academic Calendar</button>
+                </div>
+                <div class="card">
+                  <div class="card-body p-2 mb-5">
+                    <div data-bs-toggle="calendar" id="calendar_dropdown"></div>
+                  </div>
+                  <div class="card-header border-top ps-3">
+                    <h4>Tags</h4>
+                    <button class="btn btn-primary" id="add-tag">+</button>
+                  </div>
+                  <ul class="mt-2" id="tag-holder">
+                    <!-- tags will come here -->
+                  </ul>
+                </div>
+              </div>
+              <div class="col-12 col-lg-10">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Calendar</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="fc-overflow">
+                      <!-- <div id="myEvent"></div> -->
+
+                      <div id="external-events" style="display: flex; flex-direction: column">
+                        <div id="NotifyBox"></div>
+                      
+                        <div id="calendar-container">
+                          <div id="calendar"></div>
+                        </div>
+
+                      </div>
+                      <pre id="content" style="white-space: pre-wrap;"></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+      </div>
+    </div>
+  </div>
+  <!-- General JS Scripts -->
+  <script src="assets/js/app.min.js"></script>
+  <!-- JS Libraies -->
+  <!-- <script src="assets/bundles/fullcalendar/fullcalendar.min.js"></script> -->
+  <!-- Page Specific JS File -->
+  <!-- <script src="assets/js/page/calendar.js"></script> -->
+  <!-- Template JS File -->
+  <script src="assets/js/scripts.js"></script>
+  <!-- Custom JS File -->
+  <script src="assets/js/custom.js"></script>
+  <script src="assets/js/jquery.bs.calendar.js"></script>
+  <script src="assets/js/notifybox.js"></script>
+  <script src="assets/bundles/izitoast/js/iziToast.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.5.0/socket.io.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.0.0/index.global.js"></script>
+    <script src="assets/js/calendar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- <script src="https://apis.google.com/js/api.js" onload="gapiLoaded()" ></script>
+    <script src="https://accounts.google.com/gsi/client" onload="gisLoaded()" ></script> -->
+    
+
+  
+<!-- The Modal -->
+<div class="modal fade" id="ClassListModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+      <div class="modal-content">
+          <div class="modal-header">
+
+              <h5 class="modal-title">Academic Calendar Assistant</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+              <div class="col-lg-12 col-12 mt-3">
+                <textarea id="inputText" rows="10" class="form-control mb-3" cols="50" placeholder="Enter academic calendar information..." required=""></textarea>
+                
+                <button id="generateButton" class="btn btn-outline-primary">Generate</button>
+                <button id="sendFinalData" data-bs-dismiss="modal" class="btn btn-outline-primary">Send Final Data</button>
+                <span id="processingIcon" class="loading">⏳</span>
+                <div id="packet"></div>
+                <ul id="outputResult" class="mt-5 p-0"></ul>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Form Modal -->
+<div id="formModal">
+  <!-- Modal Form-->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create event</h5>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div
+            class="container"
+            style="display: flex; flex-direction: column"
+          >
+            <form id="nameForm">
+              <div class="form-group">
+                <label for="fname"><sup class="text-danger">*</sup>Event Name</label>
+                <input
+                type="text"
+                class="form-control"
+                id="eveName"
+                placeholder="Event Name"
+              />
+              </div>
+              <div class="form-group">
+                <label for="lname">Event description</label>
+                <input
+                type="text"
+                class="form-control"
+                id="eveDes"
+                placeholder="Event Description"
+              />
+              </div>
+              <div class="form-group">
+              <label for="sdate"><sup class="text-danger">*</sup>Start date</label>
+              <input type="text" class="form-control" id="sdate" name="datetime" />
+            </div>
+            <div class="form-group"><label for="edate"><sup class="text-danger">*</sup>End date</label>
+              <input type="text" class="form-control" id="edate" name="datetime" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label"><sup class="text-danger">*</sup>Color</label>
+              <div class="selectgroup w-100 flex-wrap">
+                  <label class="selectgroup-item">
+                      <input type="radio" name="color-group" value="#F3565D" class="selectgroup-input-radio" id="eventColorButtonRed" checked="">
+                      <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-red"></output></span>
+                  </label>
+                  <label class="selectgroup-item">
+                      <input type="radio" name="color-group" value="#9b59b6" class="selectgroup-input-radio" id="eventColorButtonBlue">
+                      <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-purple"></output></span>
+                  </label>
+                  <label class="selectgroup-item">
+                      <input type="radio" name="color-group" value="#1bbc9b" class="selectgroup-input-radio" id="eventColorButtonGreen">
+                      <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-green"></output></span>
+                  </label>
+                  <label class="selectgroup-item">
+                      <input type="radio" name="color-group" value="#fe9701" class="selectgroup-input-radio" id="eventColorButtonYellow">
+                      <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-orange"></output></span>
+                  </label>
+              </div>
+          </div>
+          <!-- input for tags -->
+          <div class="w-100">
+            <div class="form-group"><label for="new-event-tags"><sup class="text-danger">*</sup>Tags</label>
+              <select
+              class="w-100 form-control"
+              name="Tags"
+              multiple="multiple"
+              id="new-event-tags"
+              style="width: 100%;"
+            >
+              <optgroup label="Tags" id="new-tag-selector">
+                <!-- tags will come here -->
+              </optgroup>
+            </select>
+          </div>
+          </div>
+
+
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="button" id="savechanges" class="btn btn-primary">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Editing Form Modal -->
+<div id="editModal">
+  <!--Editing Modal -->
+  <div
+    class="modal fade"
+    id="editingModal"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Event</h5>
+          <button
+            id="modalClose"
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div
+            class="container"
+            style="display: flex; flex-direction: column"
+          >
+            <form id="nameForm">
+              <div class="form-group">
+              <label for="fname"><sup class="text-danger">*</sup>Event Name</label>
+                <input type="text" class="form-control" id="editName" /> 
+              </div>
+                <div class="form-group">
+                <label for="lname">Event description</label><input
+                type="text"
+                class="form-control"
+                id="editDes"/>
+            </div>
+            <div class="form-group"><label for="editsdate"><sup class="text-danger">*</sup>Start date</label>
+              <input
+              id="editsdate"
+                type="text"
+                class="form-control"
+                name="datetime"/>
+              </div>
+              <div class="form-group"><label for="editedate"><sup class="text-danger">*</sup>End date</label>
+                <input
+              id="editedate"
+                type="text"
+                class="form-control"
+                name="datetime"
+              />
+
+              <div class="form-group">
+                <label class="form-label"><sup class="text-danger">*</sup>Color</label>
+                <div class="selectgroup w-100 flex-wrap">
+                    <label class="selectgroup-item">
+                        <input type="radio" name="color-group" value="#F3565D" class="selectgroup-input-radio" id="eventColorButtonRed" checked="">
+                        <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-red"></output></span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="radio" name="color-group" value="#9b59b6" class="selectgroup-input-radio" id="eventColorButtonBlue">
+                        <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-purple"></output></span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="radio" name="color-group" value="#1bbc9b" class="selectgroup-input-radio" id="eventColorButtonGreen">
+                        <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-green"></output></span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="radio" name="color-group" value="#fe9701" class="selectgroup-input-radio" id="eventColorButtonYellow">
+                        <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-orange"></output></span>
+                    </label>
+                </div>
+            </div>
+
+          <!-- editing tags -->
+          <div class="w-100">
+            <div class="form-group"><label for="edit-event-tags"><sup class="text-danger">*</sup>Tags</label>
+              <select
+              class="w-100 form-control"
+              name="Tags"
+              multiple="multiple"
+              id="edit-event-tags"
+              style="width: 100%;"
+            >
+              <optgroup label="Tags" id="edit-tag-selector">
+                <!-- tags will come here -->
+              </optgroup>
+            </select>
+          </div>
+          </div>            
+
+
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            id="deleteEvent"
+            class="btn btn-outline-danger"
+            type="button"
+          >
+            Delete
+          </button>
+          <button id="modalClose" class="btn btn-danger" type="button">
+            Close
+          </button>
+          <button class="btn btn-primary" type="button" id="saveEdits">
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tag Modal -->
+<div id="tagModal">
+  <!-- Modal Form-->
+  <div
+    class="modal fade"
+    id="exampleTagModal"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="exampleTagModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleTagModalLabel">Create Tag</h5>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div
+            class="container"
+            style="display: flex; flex-direction: column"
+          >
+            <form id="tagNameForm">
+              <div class="form-group">
+                <label for="tagName"><sup class="text-danger">*</sup>Tag Name</label>
+                <input
+                type="text"
+                class="form-control"
+                id="tagName"
+                placeholder="Tag Name"
+              />
+              </div>
+
+            <div class="form-group">
+              <label class="form-label"><sup class="text-danger">*</sup>Color</label>
+              <div class="selectgroup w-100 flex-wrap">
+                  <label class="selectgroup-item">
+                      <input type="radio" name="color-group" value="#F3565D" class="selectgroup-input-radio" id="eventColorButtonRed" checked="">
+                      <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-red"></output></span>
+                  </label>
+                  <label class="selectgroup-item">
+                      <input type="radio" name="color-group" value="#9b59b6" class="selectgroup-input-radio" id="eventColorButtonBlue">
+                      <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-purple"></output></span>
+                  </label>
+                  <label class="selectgroup-item">
+                      <input type="radio" name="color-group" value="#1bbc9b" class="selectgroup-input-radio" id="eventColorButtonGreen">
+                      <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-green"></output></span>
+                  </label>
+                  <label class="selectgroup-item">
+                      <input type="radio" name="color-group" value="#fe9701" class="selectgroup-input-radio" id="eventColorButtonYellow">
+                      <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-orange"></output></span>
+                  </label>
+              </div>
+          </div>
+
+
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="button" id="saveTag" class="btn btn-primary">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Editing Tag Modal -->
+<div id="tagEditModal">
+  <!--Editing Modal -->
+  <div
+    class="modal fade"
+    id="tagEditingModal"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Tag</h5>
+          <button
+            id="modalClose"
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div
+            class="container"
+            style="display: flex; flex-direction: column"
+          >
+            <form id="tagEditForm">
+              <div class="form-group">
+              <label for="editTagName"><sup class="text-danger">*</sup>Tag Name</label>
+                <input type="text" class="form-control" id="editTagName" /> 
+              </div>
+
+              <div class="form-group">
+                <label class="form-label"><sup class="text-danger">*</sup>Color</label>
+                <div class="selectgroup w-100 flex-wrap">
+                    <label class="selectgroup-item">
+                        <input type="radio" name="color-group" value="#F3565D" class="selectgroup-input-radio" id="eventColorButtonRed" checked="">
+                        <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-red"></output></span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="radio" name="color-group" value="#9b59b6" class="selectgroup-input-radio" id="eventColorButtonBlue">
+                        <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-purple"></output></span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="radio" name="color-group" value="#1bbc9b" class="selectgroup-input-radio" id="eventColorButtonGreen">
+                        <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-green"></output></span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="radio" name="color-group" value="#fe9701" class="selectgroup-input-radio" id="eventColorButtonYellow">
+                        <span class="selectgroup-button d-flex align-items-center justify-content-center"><output class="dot dot-orange"></output></span>
+                    </label>
+                </div>
+            </div>
+
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            id="deleteTag"
+            class="btn btn-outline-danger"
+            type="button"
+          >
+            Delete
+          </button>
+          <button id="tagModalClose" class="btn btn-danger" type="button">
+            Close
+          </button>
+          <button class="btn btn-primary" type="button" id="saveTagEdits">
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- // GC code -->
+<script>
+  
+
+
+</script>
+<script>
+  (function ($) {
+    $('#calendar_dropdown').bsCalendar({
+      width: '100%',
+      showEventEditButton:true,
+      onClickEditEvent:function (e, event) {
+        console.log(event);
+  },
+
+   });
+  }(jQuery));
+
+  
+
+  
+  // (function ($) {
+  //     $.bsCalendar.setDefault('width', 5000);
+  //     $('#calendar_dropdown').bsCalendar({ width: 100% });
+  //     // $('#calendar_inline').bsCalendar({ width: '200px' });
+  //     // $('#calendar_inline').bsCalendar('setDate', '2023-12-24');
+  //     // $('#calendar_offcanvas').bsCalendar({ width: '80%' });
+  //     // $('#calendar_navbar').bsCalendar({ width: 200 });
+  // }(jQuery));
+</script>
+<!-- ai script shifted to calendar.js -->
+<!-- 
+<script>
+//import { initCalendar } from "./assets/js/calendar.js"
+document.addEventListener("DOMContentLoaded", () => {
+    const generateButton = document.getElementById("generateButton");
+    const inputText = document.getElementById("inputText");
+    const outputResult = document.getElementById("outputResult");
+    const processingIcon = document.getElementById("processingIcon");
+    const packetDiv = document.getElementById("packet");
+    const saveDataToServer = document.getElementById("sendFinalData");
+
+    document.getElementById("sendFinalData").style.display = "none";
+
+    let resultToSend = [];
+
+    saveDataToServer.addEventListener('click', () => {
+  
+        const apiRoute = "https://api.mastersofterp.in/OBECAL/ms-calendar/"
+
+        resultToSend.forEach(obj => {
+            /*
+             * TODO: //fetch statement here
+            */      
+            fetch(apiRoute, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdJZCI6IjEyMyIsImNvbGxlZ2VJZCI6IjEyMzQiLCJ1c2VySWQiOiIxMjM0NSIsImlhdCI6MTY5MzIyNTIxNSwiZXhwIjoxNjkzMjI4ODE1fQ.8fkLWo3Rk80uf9pwzL_N7sfq5xmuhQ2zmll0W_6paBU",
+                },
+                body: JSON.stringify(obj),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+
+                console.log(data)
+                
+                
+                //console.log("Todo added:", data);
+                //calling the just saved data
+                justSaved(data);
+                async function justSaved(data) {
+                fetch("https://api.mastersofterp.in/OBECAL/ms-calendar/" + data._id, {
+                    method: "GET",
+                    headers: {
+                    "content-type": "application/json",
+                    },
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        allEvents.push({
+                            id: data.resp._id,
+                            title: data.resp.eveName,
+                            description: data.resp.eveDes,
+                            start: new Date(data.resp.sdate),
+                            end: new Date(data.resp.edate),
+                            backgroundColor: data.resp.eventColor,
+                            borderColor: data.resp.eventColor,
+                        });
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Error adding event", error);
+            });
+        })
+        console.log(allEvents);
+        initCalendar(allEvents);
+    
+        iziToast.success({
+          title: 'Data Saved Successfully',
+          position: 'bottomRight'
+        });
+
+      })
+
+    generateButton.addEventListener("click", async () => {
+        processingIcon.style.display = "inline-block"; // Show processing icon
+        outputResult.innerHTML = ""; // Clear previous output
+
+        const apiUrl = "https://api.mastersofterp.in/OBECALS/generate"; // Replace with your API URL
+        const packet = JSON.stringify({ message: inputText.value });
+        // packetDiv.innerText = packet;
+        console.log(packet);
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: packet,
+            });
+            if (response.ok) {
+                const result = await response.json();
+
+                const finalData = JSON.parse(result.reply);
+                resultToSend = [];
+                
+
+                finalData.forEach((obj) => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `
+                        <h4 class="">${obj.date}</h4>
+                        <div class="">${obj.desc}</div>
+                        <div class="">${obj.role}</div>
+                        <hr>
+                    `;
+                    outputResult.appendChild(li);
+                    resultToSend.push(convertToObject(obj))
+                });
+
+                console.log(resultToSend);                           
+
+
+            } else {
+                outputResult.textContent =
+                    "Error generating response.";
+            }
+        } catch (error) {
+            outputResult.textContent = "An error occurred.";
+            console.error("Error:", error);
+        } finally {
+            processingIcon.style.display = "none"; // Hide processing icon
+        }
+        document.getElementById("sendFinalData").style.display = "initial";
+    });
+
+    function convertToObject(inputObj) {
+        const { date, desc, role } = inputObj;
+
+        // Convert date to UTC format
+        const [year, month, day] = date.split("-");
+        // Format date for start and end times
+        const startDate = new Date(date + "T00:00:00.000Z");
+        const endDate = new Date(date + "T23:59:59.000Z");
+
+        const outputObj = {
+            eveName: desc,
+            eveDes: "",
+            sdate: convertDatetoUTC(startDate), // Convert to UTC format
+            edate: convertDatetoUTC(endDate),     // Convert to UTC format
+            eventColor: "",  // Fill in the event color
+            collegeId: 123,   // Fill in the college ID
+            orgId: 456,       // Fill in the organization ID
+            userId: 12345,      // Fill in the user ID
+            hasSeen: false,
+            tags: []         
+        };
+
+        return outputObj;
+    }
+
+    function convertDatetoUTC(date) {
+        utcDate = Date.UTC(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        date.getUTCHours(),
+        date.getUTCMinutes(),
+        date.getUTCSeconds()
+        );
+        //console.log(utcDate)
+        return utcDate;
+    }
+});
+</script> 
+-->
+
+</body>
+
+
+</html>
