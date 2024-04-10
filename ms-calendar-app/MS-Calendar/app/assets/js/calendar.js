@@ -1420,7 +1420,7 @@ function saveTagEdits(tagId, saveTagData) {
       processingIcon.style.display = "inline-block"; // Show processing icon
       outputResult.innerHTML = ""; // Clear previous output
 
-      const apiUrl = "https://api.mastersofterp.in/OBECALS/generate"; // Replace with your API URL
+      const apiUrl = ""; // Replace with your API URL
       const packet = JSON.stringify({ message: inputText.value });
       // packetDiv.innerText = packet;
       //console.log(packet);
